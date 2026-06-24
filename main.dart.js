@@ -90724,7 +90724,7 @@ if(B.c.n(s,"pinnacle"))return"pinnacle.com"
 if(B.c.n(s,"sportingbet"))return"sportingbet.com"
 if(B.c.n(s,"betway"))return"betway.com"
 return A.m3(s," ","")+".com"},
-K(a){var s,r,q,p,o,n,m,l,k,j,i,h,g,f=this,e=null,d="https://www.google.com/s2/favicons?domain="
+K(a){var s,r,q,p,o,n,m,l,k,j,i,h,g,f=this,e=null,d="https://icon.horse/icon/"
 if(f.e)return B.Dj
 s=f.r
 if(s!=null)return A.jo(new A.cZ(B.hu,A.dx(A.b([B.GD,B.c0,A.bF("Erro no Servidor",e,e,e,B.T2,e,e),B.bo,A.bF(s,e,e,e,B.cN,B.cp,e)],t.p),B.P,B.dT,B.K),e),e,e)
@@ -90741,7 +90741,7 @@ o=A.cv(20)
 n=A.hT(A.a2(102,B.w.p()>>>16&255,B.w.p()>>>8&255,B.w.p()&255))
 m=A.b([new A.d9(-5,B.c6,A.a2(13,B.w.p()>>>16&255,B.w.p()>>>8&255,B.w.p()&255),B.h,20)],t.sq)
 l=t.p
-m=A.dy(A.dx(A.b([A.f1(A.b([A.kF(A.dx(A.b([A.bF(q.h(0,"market"),e,e,e,B.Ay,e,e),A.bF(q.h(0,"sport"),e,e,e,B.bN,e,e)],l),B.ao,B.O,B.K),1),A.bF("+"+A.j(q.h(0,"profit"))+"%",e,e,e,B.Um,e,e)],l),B.P,B.ci,B.K,0),B.zZ,A.f1(A.b([A.kF(A.dx(A.b([f.DW("Casa 1",q.h(0,"casa_a"),B.w),B.bo,A.aCG(d+f.Q8(q.h(0,"casa_a"))+"&sz=64",new A.amQ(),32,32),B.bo,A.iT(A.aDI(B.oz,B.AA,new A.amR(f,q)),e,1/0)],l),B.P,B.O,B.K),1),B.lV,A.kF(A.dx(A.b([f.DW("Casa 2",q.h(0,"casa_b"),B.eK),B.bo,A.aCG(d+f.Q8(q.h(0,"casa_b"))+"&sz=64",new A.amS(),32,32),B.bo,A.iT(A.aDI(B.oz,B.AA,new A.amT(f,q)),e,1/0)],l),B.P,B.O,B.K),1)],l),B.P,B.O,B.K,0)],l),B.ao,B.O,B.K),B.A,e,new A.cj(B.b2,e,n,o,m,e,B.a7),e,e,B.eW,e)
+m=A.dy(A.dx(A.b([A.f1(A.b([A.kF(A.dx(A.b([A.bF(q.h(0,"market"),e,e,e,B.Ay,e,e),A.bF(q.h(0,"sport"),e,e,e,B.bN,e,e)],l),B.ao,B.O,B.K),1),A.bF("+"+A.j(q.h(0,"profit"))+"%",e,e,e,B.Um,e,e)],l),B.P,B.ci,B.K,0),B.zZ,A.f1(A.b([A.kF(A.dx(A.b([f.DW("Casa 1",q.h(0,"casa_a"),B.w),B.bo,A.aCG(d+f.Q8(q.h(0,"casa_a")),new A.amQ(),32,32),B.bo,A.iT(A.aDI(B.oz,B.AA,new A.amR(f,q)),e,1/0)],l),B.P,B.O,B.K),1),B.lV,A.kF(A.dx(A.b([f.DW("Casa 2",q.h(0,"casa_b"),B.eK),B.bo,A.aCG(d+f.Q8(q.h(0,"casa_b")),new A.amS(),32,32),B.bo,A.iT(A.aDI(B.oz,B.AA,new A.amT(f,q)),e,1/0)],l),B.P,B.O,B.K),1)],l),B.P,B.O,B.K,0)],l),B.ao,B.O,B.K),B.A,e,new A.cj(B.b2,e,n,o,m,e,B.a7),e,e,B.eW,e)
 o=A.cv(20)
 n=A.hT(B.bx)
 k=B.d.a6(f.w,0)
