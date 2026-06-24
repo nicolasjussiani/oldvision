@@ -74,6 +74,19 @@ def _fetch_from_api():
                                 "timestamp": int(time.time())
                             })
                             
+        if len(oportunidades) == 0:
+            oportunidades.append({
+                "id": "mock_123",
+                "sport": "Simulação - Sem Arbitragem Real no Momento",
+                "market": "Flamengo (Bet365) vs Palmeiras (Pinnacle)",
+                "odd_a": 2.15,
+                "odd_b": 2.10,
+                "casa_a": "Bet365",
+                "casa_b": "Pinnacle",
+                "profit": 4.10,
+                "timestamp": int(time.time())
+            })
+                            
         oportunidades.sort(key=lambda x: x["profit"], reverse=True)
         return {"status": "ok", "opportunities": oportunidades}
         
