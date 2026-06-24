@@ -20,7 +20,7 @@ app.add_middleware(
 
 API_KEY = os.getenv('ODDS_API_KEY', '')
 BASE_URL = 'https://api.the-odds-api.com/v4/sports'
-CACHE_FILE = 'odds_cache.json'
+CACHE_FILE = '/tmp/odds_cache.json'
 CACHE_DURATION = 12 * 60 * 60  # 12 horas em segundos
 
 def _fetch_from_api():
