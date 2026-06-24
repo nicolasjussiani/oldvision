@@ -28,11 +28,12 @@ def _fetch_from_api():
         return {"status": "error", "message": "API Key não configurada no .env", "opportunities": []}
 
     try:
+        # Busca os próximos jogos gerais (vários esportes) para aumentar a rede
         response = requests.get(
-            f"{BASE_URL}/soccer_brazil_campeonato/odds",
+            f"{BASE_URL}/upcoming/odds",
             params={
                 'apiKey': API_KEY,
-                'regions': 'eu,uk',
+                'regions': 'eu,uk,us',
                 'markets': 'h2h',
                 'oddsFormat': 'decimal'
             }
@@ -42,52 +43,53 @@ def _fetch_from_api():
              return {"status": "error", "message": f"Falha na The Odds API: {response.text}", "opportunities": []}
              
         data = response.json()
-        oportunidades = []
+        todas_oportunidades = []
 
+        # Para cada partida
         for match in data:
             bookmakers = match.get('bookmakers', [])
-            bet365_data = next((b for b in bookmakers if b['key'] == 'bet365'), None)
-            pinnacle_data = next((b for b in bookmakers if b['key'] == 'pinnacle'), None)
             
-            if bet365_data and pinnacle_data:
-                b365_market = next((m for m in bet365_data['markets'] if m['key'] == 'h2h'), None)
-                pin_market = next((m for m in pinnacle_data['markets'] if m['key'] == 'h2h'), None)
-                
-                if b365_market and pin_market:
-                    b365_home_odd = next((o['price'] for o in b365_market['outcomes'] if o['name'] == match['home_team']), 0)
-                    pin_away_odd = next((o['price'] for o in pin_market['outcomes'] if o['name'] == match['away_team']), 0)
+            # Compara todas as casas de apostas umas contra as outras
+            for i in range(len(bookmakers)):
+                for j in range(i + 1, len(bookmakers)):
+                    bookie_a = bookmakers[i]
+                    bookie_b = bookmakers[j]
                     
-                    if b365_home_odd > 0 and pin_away_odd > 0:
-                        margem = (1 / b365_home_odd) + (1 / pin_away_odd)
+                    market_a = next((m for m in bookie_a['markets'] if m['key'] == 'h2h'), None)
+                    market_b = next((m for m in bookie_b['markets'] if m['key'] == 'h2h'), None)
+                    
+                    if market_a and market_b and 'home_team' in match and 'away_team' in match:
+                        home_odd_a = next((o['price'] for o in market_a['outcomes'] if o['name'] == match['home_team']), 0)
+                        away_odd_b = next((o['price'] for o in market_b['outcomes'] if o['name'] == match['away_team']), 0)
                         
-                        if margem < 1.0:
+                        if home_odd_a > 0 and away_odd_b > 0:
+                            margem = (1 / home_odd_a) + (1 / away_odd_b)
                             lucro = ((1 / margem) - 1) * 100
-                            oportunidades.append({
-                                "id": match['id'],
+                            
+                            todas_oportunidades.append({
+                                "id": f"{match['id']}_{bookie_a['key']}_{bookie_b['key']}",
                                 "sport": match['sport_title'],
-                                "market": f"{match['home_team']} (Bet365) vs {match['away_team']} (Pinnacle)",
-                                "odd_a": b365_home_odd,
-                                "odd_b": pin_away_odd,
-                                "casa_a": "Bet365",
-                                "casa_b": "Pinnacle",
+                                "market": f"{match['home_team']} ({bookie_a['title']}) vs {match['away_team']} ({bookie_b['title']})",
+                                "odd_a": home_odd_a,
+                                "odd_b": away_odd_b,
+                                "casa_a": bookie_a['title'],
+                                "casa_b": bookie_b['title'],
                                 "profit": round(lucro, 2),
                                 "timestamp": int(time.time())
                             })
                             
-        if len(oportunidades) == 0:
-            oportunidades.append({
-                "id": "mock_123",
-                "sport": "Simulação - Sem Arbitragem Real no Momento",
-                "market": "Flamengo (Bet365) vs Palmeiras (Pinnacle)",
-                "odd_a": 2.15,
-                "odd_b": 2.10,
-                "casa_a": "Bet365",
-                "casa_b": "Pinnacle",
-                "profit": 4.10,
-                "timestamp": int(time.time())
-            })
-                            
-        oportunidades.sort(key=lambda x: x["profit"], reverse=True)
+        # Ordena pelo maior lucro
+        todas_oportunidades.sort(key=lambda x: x["profit"], reverse=True)
+        
+        # Filtra as oportunidades com lucro real (> 0)
+        oportunidades_reais = [o for o in todas_oportunidades if o["profit"] > 0]
+        
+        # Se não tiver NENHUMA arbitragem real no mundo agora, pegamos as top 5 com as menores perdas
+        # para a tela nunca ficar vazia, como o usuário pediu.
+        if len(oportunidades_reais) == 0:
+            oportunidades = todas_oportunidades[:5]
+        else:
+            oportunidades = oportunidades_reais
         return {"status": "ok", "opportunities": oportunidades}
         
     except Exception as e:
