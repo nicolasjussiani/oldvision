@@ -66,6 +66,11 @@ def _fetch_from_api():
                             margem = (1 / home_odd_a) + (1 / away_odd_b)
                             lucro = ((1 / margem) - 1) * 100
                             
+                            
+                            # Verifica se envolve casas populares no Brasil
+                            casas_br = ['bet365', 'betano', 'betfair', 'pinnacle', '1x_bet', 'sportingbet', 'betway']
+                            tem_br = 1 if (bookie_a['key'] in casas_br or bookie_b['key'] in casas_br) else 0
+                            
                             todas_oportunidades.append({
                                 "id": f"{match['id']}_{bookie_a['key']}_{bookie_b['key']}",
                                 "sport": match['sport_title'],
@@ -75,11 +80,12 @@ def _fetch_from_api():
                                 "casa_a": bookie_a['title'],
                                 "casa_b": bookie_b['title'],
                                 "profit": round(lucro, 2),
-                                "timestamp": int(time.time())
+                                "timestamp": int(time.time()),
+                                "prioridade_br": tem_br
                             })
                             
-        # Ordena pelo maior lucro
-        todas_oportunidades.sort(key=lambda x: x["profit"], reverse=True)
+        # Ordena dando prioridade máxima para quem tem casa brasileira, e depois pelo lucro
+        todas_oportunidades.sort(key=lambda x: (x["prioridade_br"], x["profit"]), reverse=True)
         
         # Filtra as oportunidades com lucro real (> 0)
         oportunidades_reais = [o for o in todas_oportunidades if o["profit"] > 0]
